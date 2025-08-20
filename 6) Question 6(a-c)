@@ -1,0 +1,178 @@
+Question 6) Write a program to implement the following operations on a Sparse Matrix, assuming the
+matrix is represented using a triplet.
+(a) Transpose of a matrix.
+(b) Addition of two matrices.
+(c) Multiplication of two matrices. 
+
+
+Answer 6(a)
+
+#include <iostream>
+using namespace std;
+
+struct Element {
+    int row;
+    int column;
+    int value;
+};
+class SparseMatrix {
+private:
+    int rows, columns, nonZero;
+    Element *ele;
+
+public:
+    SparseMatrix(int r, int c, int nz) {
+        rows = r;
+        columns = c;
+        nonZero = nz;
+        ele = new Element[nz];
+    }
+    void read() {
+        cout << "Enter row, column, value for " << nonZero << " non-zero elements:\n";
+        for (int i=0; i<nonZero; i++) {
+            cin >> ele[i].row >> ele[i].col >> ele[i].val;
+        }
+    }
+    void display() {
+        cout << "\nRow Col Val\n";
+        for (int i=0; i<nonZero; i++) {
+            cout << ele[i].row << "   " << ele[i].col << "   " << ele[i].val << endl;
+        }
+    }
+    SparseMatrix transpose() {
+        SparseMatrix t(columns, rows, nonZero);
+
+        for (int i=0; i<nonZero; i++) {
+            t.ele[i].row= ele[i].col;
+            t.ele[i].col= ele[i].row;
+            t.ele[i].val= ele[i].val;
+        }
+        return t;
+    }
+    SparseMatrix() {
+        delete[] ele;
+    }
+};
+int main() {
+    int r, c, nz;
+    cout << "Enter rows, cols and number of non-zero elements: ";
+    cin >> r >> c >> nz;
+
+    SparseMatrix sm(r, c, nz);
+    sm.read();
+    cout << "\nOriginal Sparse Matrix in triplet form:";
+    sm.display();
+
+    SparseMatrix t = sm.transpose();
+    cout << "\nTranspose of Sparse Matrix in triplet form:";
+    t.display();
+    return 0;
+}
+
+
+Answer 6(b)
+
+#include <iostream>
+using namespace std;
+
+struct Element {
+    int row, column, value;
+};
+int main() {
+    int r, c, nz1, nz2;
+    cout << "Enter rows cols and non-zero elements for Matrix A: ";
+    cin >> r >> c >> nz1;
+    Element A[100];
+    cout << "Enter row col value for " << nz1 << " non-zero elements:\n";
+    for (int i=0; i<nz1; i++)
+        cin >> A[i].row >> A[i].col >> A[i].val;
+
+    cout << "Enter non-zero elements for Matrix B: ";
+    cin >> nz2;
+    Element B[100];
+    cout << "Enter row column value for " << nz2 << " non-zero elements:\n";
+    for (int i=0; i<nz2; i++)
+        cin >> B[i].row >> B[i].column >> B[i].value;
+
+    Element C[200];
+    int i=0, j=0, k=0;
+
+    while (i < nz1 && j < nz2) {
+        if (A[i].row < B[j].row || 
+           (A[i].row == B[j].row && A[i].column < B[j].column)) {
+            C[k++] = A[i++];
+        }
+        else if (B[j].row < A[i].row || 
+                (B[j].row == A[i].row && B[j].column < A[i].column)) {
+            C[k++] = B[j++];
+        }
+        else { // same position → add values
+            int sum = A[i].value+B[j].val;
+            if (sum!=0) {
+                C[k]= A[i];
+                C[k++].value= sum;
+            }
+            i++; j++;
+        }
+    }
+    while (i< nz1) C[k++]= A[i++];
+    while (j< nz2) C[k++]= B[j++];
+
+    cout << "\nSum Matrix (triplet form):\nRow Col Val\n";
+    for (int x=0; x<k; x++) {
+        cout << C[x].row << "   " << C[x].col << "   " << C[x].val << endl;
+    }
+    return 0;
+}
+
+
+Answer 6(c)
+
+#include <iostream>
+using namespace std;
+
+struct Element {
+    int row, column, value;
+};
+
+int main() {
+    int r1, c1, nz1, r2, c2, nz2;
+
+    cout << "Enter rows columns and non-zero elements for Matrix A: ";
+    cin >> r1 >> c1 >> nz1;
+    Element A[100];
+    cout << "Enter row column value:\n";
+    for (int i=0; i<nz1; i++)
+        cin >> A[i].row >> A[i].column >> A[i].value;
+
+    cout << "Enter rows columns and non-zero elements for Matrix B: ";
+    cin >> r2 >> c2 >> nz2;
+    Element B[100];
+    cout << "Enter row column value:\n";
+    for (int i = 0; i < nz2; i++)
+        cin >> B[i].row >> B[i].column >> B[i].value;
+
+    if (c1 != r2) {
+        cout << "Multiplication not possible!";
+        return 0;
+    }
+    Element C[200];  
+    int k = 0;
+
+    for (int i = 0; i < nz1; i++) {
+        for (int j = 0; j < nz2; j++) {
+            if (A[i].column == B[j].row) {
+                C[k].row = A[i].row;
+                C[k].column = B[j].column;
+                C[k].value = A[i].value * B[j].value;
+                k++;
+            }
+        }
+    }
+    cout << "\nResultant Matrix in Triplet Form:\n";
+    cout << "Row Column Value\n";
+    for (int i=0; i<k; i++) {
+        cout << C[i].row << "   " << C[i].column << "   " << C[i].value << endl;
+    }
+    return 0;
+}
