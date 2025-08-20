@@ -1,0 +1,76 @@
+Question 4) String Related Programs 
+(a) Write a program to concatenate one string to another string. 
+(b) Write a program to reverse a string. 
+(c) Write a program to delete all the vowels from the string. 
+(d) Write a program to sort the strings in alphabetical order. 
+(e) Write a program to convert a character from uppercase to lowercase.
+
+Answer 4(a)
+
+#include <iostream>
+using namespace std;
+
+int main() {
+    char string1[100], string2[100];
+    cout << "Enter first string: ";
+    cin.getline(string1, 100);
+    cout << "Enter second string: ";
+    cin.getline(string2, 100);
+
+    int i=0, j=0;
+    while (string1[i] != '\0') i++;   
+    while (string2[j] != '\0') {
+        string1[i] = string2[j];
+        i++; 
+        j++;
+    }
+    string1[i] = '\0';
+
+    cout << "Concatenated string: " << string1 << endl;
+    return 0;
+}
+
+
+Answer 4(b)
+
+#include <iostream>
+using namespace std;
+
+int main() {
+    char str[100];
+    cout << "Enter a string: ";
+    cin.getline(str, 100);
+
+    int n = 0;
+    while (str[n] != '\0')   
+        n++;
+
+    cout << "Reversed string: ";
+    for (int i=n-1; i>=0; i--)
+        cout << str[i];
+    cout << endl;
+    return 0;
+}
+
+
+Question 4(c)
+#include <iostream>
+using namespace std;
+
+int main() {
+    char string[100];
+    cout << "Enter a string: ";
+    cin.getline(string, 100);
+
+    cout << "Without vowels: ";
+    int i=0;
+    while (string[i] != '\0') {
+        char ch = string[i];
+        if (!(ch=='a'||ch=='e'||ch=='i'||ch=='o'||ch=='u'||
+              ch=='A'||ch=='E'||ch=='I'||ch=='O'||ch=='U'))
+            cout << ch;
+        i++;
+    }
+    cout << endl;
+    return 0;
+}
