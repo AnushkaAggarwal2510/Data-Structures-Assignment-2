@@ -53,7 +53,8 @@ int main() {
 }
 
 
-Question 4(c)
+Answer 4(c)
+
 #include <iostream>
 using namespace std;
 
@@ -72,5 +73,58 @@ int main() {
         i++;
     }
     cout << endl;
+    return 0;
+}
+
+
+Answer 4(d)
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    int n;
+    cout << "Enter number of strings: ";
+    cin >> n;
+
+    vector<string> arr(n);
+    cout << "Enter " << n << " strings:\n";
+    for (int i=0; i<n; i++) {
+        cin >> arr[i];
+    }
+    for (int i=0; i<n-1; i++) {
+        for (int j=i+1; j<n; j++) {
+            if (arr[i] > arr[j]) {
+                string temp= arr[i];
+                arr[i]= arr[j];
+                arr[j]= temp;
+            }
+        }
+    }
+    cout << "\nStrings in alphabetical order:\n";
+    for (int i = 0; i < n; i++) {
+        cout << arr[i] << endl;
+    }
+    return 0;
+}
+
+
+Answer 4(e)
+
+#include <iostream>
+using namespace std;
+
+int main() {
+    char ch;
+    cout << "Enter an uppercase character: ";
+    cin >> ch;
+
+    if (ch >= 'A' && ch <= 'Z') {
+        ch = ch + 32;
+        cout << "Lowercase: " << ch << end;
+    } else {
+        cout << "The entered character is not uppercase." << end;
+    }
     return 0;
 }
